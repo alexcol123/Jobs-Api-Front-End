@@ -4,6 +4,8 @@ import {
   REGISTER_USER_ERROR,
   FETCH_JOBS_SUCCESS,
   FETCH_JOBS_ERROR,
+  CREATE_JOB_SUCCESS,
+  CREATE_JOB_ERROR,
 } from './actions'
 
 const reducer = (state, action) => {
@@ -45,6 +47,20 @@ const reducer = (state, action) => {
       return {
         ...state,
         isLoading: false,
+      }
+
+    case CREATE_JOB_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        jobs: [...state.jobs, action.payload],
+      }
+
+    case CREATE_JOB_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
       }
 
     default:

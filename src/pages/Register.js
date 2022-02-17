@@ -13,7 +13,7 @@ const Register = () => {
     isMember: true,
   })
 
-  const { register, fetchJobs, login } = useGlobalContext()
+  const { user, register, fetchJobs, login } = useGlobalContext()
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember })
@@ -28,60 +28,70 @@ const Register = () => {
     const { name, email, password, isMember } = values
 
     if (isMember) {
-      login({  email, password })
+      login({ email, password })
     }
 
     register({ name, email, password })
   }
 
+  console.log(values.isMember)
+
   return (
-    <Wrapper className='page full-page'>
-      <div className='container'>
-        <form className='form' onSubmit={onSubmit}>
-          <img src={logo} alt='jobio' className='logo' />
+    <>
+      {user && <Redirect to='/dashboard' />}
 
-          <h4>{values.isMember ? 'Login' : 'Register'}</h4>
+      <Wrapper className='page full-page'>
+        <div className='container'>
+          <form className='form' onSubmit={onSubmit}>
+            <img src={logo} alt='jobio' className='logo' />
 
-          {!values.isMember && (
+            <h4>{values.isMember ? 'Login' : 'Register'}</h4>
+
+            {!values.isMember && (
+              <FormRow
+                type='name'
+                name='name'
+                value={values.name}
+                handleChange={handleChange}
+              />
+            )}
+
             <FormRow
-              type='name'
-              name='name'
-              value={values.name}
+              type='email'
+              name='email'
+              value={values.email}
               handleChange={handleChange}
             />
-          )}
 
-          <FormRow
-            type='email'
-            name='email'
-            value={values.email}
-            handleChange={handleChange}
-          />
+            <FormRow
+              type='password'
+              name='password'
+              value={values.password}
+              handleChange={handleChange}
+            />
 
-          <FormRow
-            type='password'
-            name='password'
-            value={values.password}
-            handleChange={handleChange}
-          />
-
-          <button type='submit' className='btn btn-block'>
-            Submit
-          </button>
-
-          <p>
-            {values.isMember ? 'Not a member yet?' : 'Already a member?'}
-
-            <button type='button' onClick={toggleMember} className='member-btn'>
-              {values.isMember ? 'Register' : 'Login'}
+            <button type='submit' className='btn btn-block'>
+              Submit
             </button>
-          </p>
-          <button type='button' className='btn btn-block' onClick={fetchJobs}>
-            TEST ONLY---- Get All Jobs
-          </button>
-        </form>
-      </div>
-    </Wrapper>
+
+            <p>
+              {values.isMember ? 'Not a member yet?' : 'Already a member?'}
+
+              <button
+                type='button'
+                onClick={toggleMember}
+                className='member-btn'
+              >
+                {values.isMember ? 'Register' : 'Login'}
+              </button>
+            </p>
+            <button type='button' className='btn btn-block' onClick={fetchJobs}>
+              TEST ONLY---- Get All Jobs
+            </button>
+          </form>
+        </div>
+      </Wrapper>
+    </>
   )
 }
 

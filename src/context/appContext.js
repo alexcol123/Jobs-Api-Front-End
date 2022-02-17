@@ -8,12 +8,14 @@ import {
   REGISTER_USER_ERROR,
   FETCH_JOBS_SUCCESS,
   FETCH_JOBS_ERROR,
+  CREATE_JOB_SUCCESS,
+  CREATE_JOB_ERROR,
 } from './actions'
 
 const initialState = {
   user: null,
   isLoading: false,
-  jobs: ['one', 'two'],
+  jobs: [],
   showAlert: false,
   editItem: null,
   singleJobError: false,
@@ -79,6 +81,21 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  // Create Job
+  const createJob = async (userInput) => {
+    setLoading()
+    try {
+      const { data } = await axios.post(`/jobs`, { ...userInput })
+
+      console.log('data bellow-------------->');
+      console.log(data);
+
+      dispatch({ type: CREATE_JOB_SUCCESS, payload: data.job })
+    } catch (error) {
+      dispatch({ type: CREATE_JOB_ERROR })
+    }
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -88,7 +105,8 @@ const AppProvider = ({ children }) => {
         setLoading,
         register,
         fetchJobs,
-        login
+        login,
+        createJob,
       }}
     >
       {children}
