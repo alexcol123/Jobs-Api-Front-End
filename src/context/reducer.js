@@ -2,16 +2,12 @@ import {
   SET_LOADING,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_ERROR,
+  FETCH_JOBS_SUCCESS,
+  FETCH_JOBS_ERROR,
 } from './actions'
 
 const reducer = (state, action) => {
   switch (action.type) {
-    // case 'GET_TRANSACTIONS':
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     transactions: action.payload,
-    //   }
     case SET_LOADING:
       return {
         ...state,
@@ -33,6 +29,22 @@ const reducer = (state, action) => {
         isLoading: false,
         user: null,
         showAlert: true,
+      }
+
+    case FETCH_JOBS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        editItem: null,
+        singleJobError: false,
+        editComplete: false,
+        jobs: action.payload,
+      }
+
+    case FETCH_JOBS_ERROR:
+      return {
+        ...state,
+        isLoading: false,
       }
 
     default:

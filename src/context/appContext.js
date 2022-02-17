@@ -6,12 +6,14 @@ import {
   SET_LOADING,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_ERROR,
+  FETCH_JOBS_SUCCESS,
+  FETCH_JOBS_ERROR,
 } from './actions'
 
 const initialState = {
   user: null,
   isLoading: false,
-  jobs: [],
+  jobs: ['one', 'two'],
   showAlert: false,
   editItem: null,
   singleJobError: false,
@@ -22,6 +24,8 @@ const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  console.log(state)
 
   // Set Loading
   const setLoading = () => {
@@ -35,17 +39,45 @@ const AppProvider = ({ children }) => {
       const { data } = await axios.post(`/auth/register`, {
         ...userInput,
       })
-
       dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user.name })
-      // localStorage.setItem(
-      //   'user',
-      //   JSON.stringify({ name: data.user.name, token: data.token })
-      // )
+
+      localStorage.setItem(
+        'user',
+        JSON.stringify({ name: data.user.name, token: data.token })
+      )
     } catch (error) {
       dispatch({ type: REGISTER_USER_ERROR })
     }
   }
 
+  // Login
+  const login = async (userInput) => {
+    setLoading()
+    try {
+      const { data } = await axios.post(`/auth/login`, {
+        ...userInput,
+      })
+      dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user.name })
+      localStorage.setItem(
+        'user',
+        JSON.stringify({ name: data.user.name, token: data.token })
+      )
+    } catch (error) {
+      dispatch({ type: REGISTER_USER_ERROR })
+    }
+  }
+
+  // Fetch All Jobs
+  const fetchJobs = async () => {
+    setLoading()
+    try {
+      const { data } = await axios.get('/jobs')
+      dispatch({ type: FETCH_JOBS_SUCCESS, payload: data.jobs })
+    } catch (error) {
+      dispatch({ type: FETCH_JOBS_ERROR })
+      // Pending Logout
+    }
+  }
 
   return (
     <AppContext.Provider
@@ -55,6 +87,8 @@ const AppProvider = ({ children }) => {
         // Functions
         setLoading,
         register,
+        fetchJobs,
+        login
       }}
     >
       {children}

@@ -1,20 +1,16 @@
-import './App.css'
-import {useGlobalContext} from './context/appContext'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Register } from './pages/index'
+import Navbar from './components/Navbar'
 
 function App() {
-
- const {isLoading, setLoading} = useGlobalContext()
- console.log(isLoading);
-//  setLoading()
- console.log(isLoading);
-
-
-
   return (
-    <div className='App'>
-      <h1>hello nurse...</h1>
-      <button onClick={setLoading}>Set Loading</button>
-    </div>
+    <Router>
+      <Switch>
+        <Route path='/' exact>
+          <Register />
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 
