@@ -15,6 +15,10 @@ const Register = () => {
 
   const { register, fetchJobs, login } = useGlobalContext()
 
+  const toggleMember = () => {
+    setValues({ ...values, isMember: !values.isMember })
+  }
+
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value })
   }
@@ -23,8 +27,11 @@ const Register = () => {
     e.preventDefault()
     const { name, email, password, isMember } = values
 
-    //register({ name, email, password })
-    login({ name, email, password })
+    if (isMember) {
+      login({  email, password })
+    }
+
+    register({ name, email, password })
   }
 
   return (
@@ -32,13 +39,17 @@ const Register = () => {
       <div className='container'>
         <form className='form' onSubmit={onSubmit}>
           <img src={logo} alt='jobio' className='logo' />
-          <h4>Register</h4>
-          <FormRow
-            type='name'
-            name='name'
-            value={values.name}
-            handleChange={handleChange}
-          />
+
+          <h4>{values.isMember ? 'Login' : 'Register'}</h4>
+
+          {!values.isMember && (
+            <FormRow
+              type='name'
+              name='name'
+              value={values.name}
+              handleChange={handleChange}
+            />
+          )}
 
           <FormRow
             type='email'
@@ -58,8 +69,15 @@ const Register = () => {
             Submit
           </button>
 
+          <p>
+            {values.isMember ? 'Not a member yet?' : 'Already a member?'}
+
+            <button type='button' onClick={toggleMember} className='member-btn'>
+              {values.isMember ? 'Register' : 'Login'}
+            </button>
+          </p>
           <button type='button' className='btn btn-block' onClick={fetchJobs}>
-            Get All Jobs
+            TEST ONLY---- Get All Jobs
           </button>
         </form>
       </div>

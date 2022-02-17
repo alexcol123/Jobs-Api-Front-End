@@ -1,3 +1,6 @@
-import Register from "./Register";
+import Register from './Register'
+import Dashboard from './Dashboard'
+import Home from './Home'
 
-export {Register}
+// Exports
+export { Register, Dashboard, Home }

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { Register } from './pages/index'
+import { Register, Dashboard, Home } from './pages/index'
 import Navbar from './components/Navbar'
 
 function App() {
@@ -7,6 +7,12 @@ function App() {
     <Router>
       <Switch>
         <Route path='/' exact>
+          <Home />
+        </Route>
+        <Route path='/dashboard'>
+          <Dashboard />
+        </Route>
+        <Route path='/register'>
           <Register />
         </Route>
       </Switch>
