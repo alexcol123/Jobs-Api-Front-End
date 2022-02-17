@@ -10,6 +10,7 @@ import {
   FETCH_JOBS_ERROR,
   CREATE_JOB_SUCCESS,
   CREATE_JOB_ERROR,
+  DELETE_JOB_ERROR,
 } from './actions'
 
 const initialState = {
@@ -27,7 +28,7 @@ const AppContext = React.createContext()
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  console.log(state)
+  //console.log(state)
 
   // Set Loading
   const setLoading = () => {
@@ -87,12 +88,21 @@ const AppProvider = ({ children }) => {
     try {
       const { data } = await axios.post(`/jobs`, { ...userInput })
 
-      console.log('data bellow-------------->');
-      console.log(data);
+      console.log('data bellow-------------->')
 
       dispatch({ type: CREATE_JOB_SUCCESS, payload: data.job })
     } catch (error) {
       dispatch({ type: CREATE_JOB_ERROR })
+    }
+  }
+
+  const deleteJob = async (jobId) => {
+    setLoading()
+    try {
+      await axios.delete(`/jobs/${jobId}`)
+      fetchJobs()
+    } catch (error) {
+      dispatch({ type: DELETE_JOB_ERROR })
     }
   }
 
@@ -107,6 +117,7 @@ const AppProvider = ({ children }) => {
         fetchJobs,
         login,
         createJob,
+        deleteJob
       }}
     >
       {children}

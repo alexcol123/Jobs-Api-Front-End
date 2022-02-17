@@ -6,6 +6,7 @@ import {
   FETCH_JOBS_ERROR,
   CREATE_JOB_SUCCESS,
   CREATE_JOB_ERROR,
+  DELETE_JOB_ERROR
 } from './actions'
 
 const reducer = (state, action) => {
@@ -62,6 +63,15 @@ const reducer = (state, action) => {
         isLoading: false,
         showAlert: true,
       }
+
+
+      case DELETE_JOB_ERROR:
+        return {
+          ...state,
+          isLoading: false,
+          showAlert: true,
+        }
+  
 
     default:
       return state

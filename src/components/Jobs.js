@@ -4,10 +4,10 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
-import JobColumns from './JobColumns';
+import JobColumns from './JobColumns'
 
 const Jobs = () => {
-  const { jobs, isLoading } = useGlobalContext()
+  const { jobs, isLoading, deleteJob } = useGlobalContext()
 
   if (isLoading) {
     return <div className='loading'></div>
@@ -26,8 +26,7 @@ const Jobs = () => {
 
   return (
     <>
-         <JobColumns />
-      
+      <JobColumns />
 
       <Container>
         {jobs.map((item) => {
@@ -47,7 +46,11 @@ const Jobs = () => {
                 <Link to={`/edit/${id}`} className='edit-btn' type='button'>
                   <FaEdit />
                 </Link>
-                <button className='delete-btn' type='button'>
+                <button
+                  className='delete-btn'
+                  type='button'
+                  onClick={()=>deleteJob(id)}
+                >
                   <FaTrash />
                 </button>
               </div>
