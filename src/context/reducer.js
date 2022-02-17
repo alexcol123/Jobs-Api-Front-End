@@ -6,7 +6,13 @@ import {
   FETCH_JOBS_ERROR,
   CREATE_JOB_SUCCESS,
   CREATE_JOB_ERROR,
-  DELETE_JOB_ERROR
+  DELETE_JOB_ERROR,
+  FETCH_SINGLE_JOB_SUCCESS,
+  FETCH_SINGLE_JOB_ERROR,
+  EDIT_JOB_SUCCESS,
+  EDIT_JOB_ERROR,
+  SET_USER,
+  LOGOUT_USER
 } from './actions'
 
 const reducer = (state, action) => {
@@ -64,14 +70,51 @@ const reducer = (state, action) => {
         showAlert: true,
       }
 
+    case DELETE_JOB_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+      }
 
-      case DELETE_JOB_ERROR:
-        return {
-          ...state,
-          isLoading: false,
-          showAlert: true,
-        }
-  
+    case FETCH_SINGLE_JOB_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        editItem: action.payload,
+      }
+
+    case FETCH_SINGLE_JOB_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        editItem: '',
+        singleJobError: true,
+      }
+
+    case EDIT_JOB_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        editComplete: true,
+        editItem: action.payload,
+      }
+
+    case SET_USER:
+      return {
+        ...state,
+        user: action.payload,
+      }
+
+    case LOGOUT_USER:
+      return {
+        ...state,
+        user: null,
+        showAlert: false,
+        jobs: [],
+        isEditing: false,
+        editItem: null,
+      }
 
     default:
       return state

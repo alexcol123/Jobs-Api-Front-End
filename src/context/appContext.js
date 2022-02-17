@@ -11,6 +11,12 @@ import {
   CREATE_JOB_SUCCESS,
   CREATE_JOB_ERROR,
   DELETE_JOB_ERROR,
+  FETCH_SINGLE_JOB_SUCCESS,
+  FETCH_SINGLE_JOB_ERROR,
+  EDIT_JOB_SUCCESS,
+  EDIT_JOB_ERROR,
+  SET_USER,
+  LOGOUT_USER,
 } from './actions'
 
 const initialState = {
@@ -70,6 +76,12 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  // Logout
+  const logout = () => {
+    localStorage.removeItem('user')
+    dispatch({ type: LOGOUT_USER })
+  }
+
   // Fetch All Jobs
   const fetchJobs = async () => {
     setLoading()
@@ -106,6 +118,36 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  const fetchSingleJob = async (jobId) => {
+    setLoading()
+    try {
+      const { data } = await axios.get(`/jobs/${jobId}`)
+      dispatch({ type: FETCH_SINGLE_JOB_SUCCESS, payload: data.job })
+    } catch (error) {
+      dispatch({ type: FETCH_SINGLE_JOB_ERROR })
+    }
+  }
+
+  const editJob = async (jobId, userInput) => {
+    setLoading()
+    try {
+      const { data } = await axios.patch(`/jobs/${jobId}`, {
+        ...userInput,
+      })
+      dispatch({ type: EDIT_JOB_SUCCESS, payload: data.job })
+    } catch (error) {
+      dispatch({ type: EDIT_JOB_ERROR })
+    }
+  }
+
+  useEffect(() => {
+    const user = localStorage.getItem('user')
+    if (user) {
+      const newUser = JSON.parse(user)
+      dispatch({ type: SET_USER, payload: newUser.name })
+    }
+  }, [])
+
   return (
     <AppContext.Provider
       value={{
@@ -117,7 +159,10 @@ const AppProvider = ({ children }) => {
         fetchJobs,
         login,
         createJob,
-        deleteJob
+        deleteJob,
+        fetchSingleJob,
+        editJob,
+        logout,
       }}
     >
       {children}
