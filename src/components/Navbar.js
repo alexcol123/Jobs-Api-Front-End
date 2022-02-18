@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import logo from '../assets/logo.svg';
-import { FaUserCircle, FaCaretDown } from 'react-icons/fa';
-import { useGlobalContext } from '../context/appContext';
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import logo from '../assets/logo.svg'
+import { FaUserCircle, FaCaretDown } from 'react-icons/fa'
+import { useGlobalContext } from '../context/appContext'
 
 const Navbar = () => {
-  const { user, logout } = useGlobalContext();
-  const [showLogout, setShowLogout] = useState(false);
-
+  const { user, logout } = useGlobalContext()
+  const [showLogout, setShowLogout] = useState(false)
 
   return (
     <Wrapper>
@@ -19,12 +18,8 @@ const Navbar = () => {
               <FaUserCircle />
               {user}
               <FaCaretDown />
-
-
             </button>
 
-
-            
             <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>
               <button onClick={() => logout()} className='dropdown-btn'>
                 logout
@@ -34,8 +29,8 @@ const Navbar = () => {
         )}
       </div>
     </Wrapper>
-  );
-};
+  )
+}
 
 const Wrapper = styled.nav`
   height: 6rem;
@@ -84,6 +79,6 @@ const Wrapper = styled.nav`
     text-transform: capitalize;
     cursor: pointer;
   }
-`;
+`
 
-export default Navbar;
+export default Navbar

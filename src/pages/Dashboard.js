@@ -4,6 +4,7 @@ import { useGlobalContext } from '../context/appContext'
 import FormRow from '../components/FormRow'
 import Jobs from '../components/Jobs'
 import Navbar from '../components/Navbar'
+import { Redirect } from 'react-router-dom'
 
 const Dashboard = () => {
   const [values, setvalues] = useState({ company: '', position: '' })
@@ -12,7 +13,7 @@ const Dashboard = () => {
     setvalues({ ...values, [e.target.name]: e.target.value })
   }
 
-  const { isLoading, fetchJobs, createJob } = useGlobalContext()
+  const { isLoading, fetchJobs, createJob, user } = useGlobalContext()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -29,7 +30,9 @@ const Dashboard = () => {
   // Return
   return (
     <>
+      {!user && <Redirect to='/' />}
       <Navbar />
+
       <Wrapper className='page'>
         {/* Alert -------------------------------------------- to DO  */}
 
