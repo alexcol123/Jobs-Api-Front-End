@@ -18,6 +18,8 @@ const Edit = () => {
     editComplete,
   } = useGlobalContext()
 
+  console.log(user)
+
   const [values, setValues] = useState({
     company: '',
     position: '',
@@ -28,12 +30,11 @@ const Edit = () => {
     fetchSingleJob(id)
   }, [id])
 
-
   useEffect(() => {
-  if(editItem){
-    const {company, position, status} = editItem
-    setValues({company, position, status})
-  }
+    if (editItem) {
+      const { company, position, status } = editItem
+      setValues({ company, position, status })
+    }
   }, [editItem])
 
   const handleChange = (e) => {
@@ -50,57 +51,62 @@ const Edit = () => {
   }
 
   return (
-    <Container className='page'>
-      <header>
-        <Link to='/dashboard' className='btn btn-block back-home'>
-          back home
-        </Link>
-      </header>
+    <>
+      {!user && <Redirect to='/' />}
 
-      <form className='form' onSubmit={handleSubmit}>
-        <p>{editComplete && 'Success ! Edit complete'}</p>
-        <h4>Update job</h4>
+      <Navbar />
+      <Container className='page'>
+        <header>
+          <Link to='/dashboard' className='btn btn-block back-home'>
+            back home
+          </Link>
+        </header>
 
-        <div className='form-container'>
-          <FormRow
-            type='name'
-            name='position'
-            value={values.position}
-            handleChange={handleChange}
-          />
-          <FormRow
-            type='name'
-            name='company'
-            value={values.company}
-            handleChange={handleChange}
-          />
+        <form className='form' onSubmit={handleSubmit}>
+          <p>{editComplete && 'Success ! Edit complete'}</p>
+          <h4>Update job</h4>
 
-          <div className='form-row'>
-            <label htmlFor='status' className='form-label'>
-              Status
-            </label>
-            <select
-              name='status'
-              value={values.status}
-              onChange={handleChange}
-              className='status'
+          <div className='form-container'>
+            <FormRow
+              type='name'
+              name='position'
+              value={values.position}
+              handleChange={handleChange}
+            />
+            <FormRow
+              type='name'
+              name='company'
+              value={values.company}
+              handleChange={handleChange}
+            />
+
+            <div className='form-row'>
+              <label htmlFor='status' className='form-label'>
+                Status
+              </label>
+              <select
+                name='status'
+                value={values.status}
+                onChange={handleChange}
+                className='status'
+              >
+                <option value='pending'>pending</option>
+                <option value='interview'>interview</option>
+                <option value='declined'>declined</option>
+              </select>
+            </div>
+
+            <button
+              type='submit'
+              className='btn btn-block submit-btn'
+              disabled={isLoading}
             >
-              <option value='pending'>pending</option>
-              <option value='interview'>interview</option>
-              <option value='declined'>declined</option>
-            </select>
+              {isLoading ? 'Editing...' : 'Edit'}
+            </button>
           </div>
-
-          <button
-            type='submit'
-            className='btn btn-block submit-btn'
-            disabled={isLoading}
-          >
-            {isLoading ? 'Editing...' : 'Edit'}
-          </button>
-        </div>
-      </form>
-    </Container>
+        </form>
+      </Container>
+    </>
   )
 }
 

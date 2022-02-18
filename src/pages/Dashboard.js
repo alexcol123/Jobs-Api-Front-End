@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useGlobalContext } from '../context/appContext'
 import FormRow from '../components/FormRow'
 import Jobs from '../components/Jobs'
-// Navbar  =========>>  to do
+import Navbar from '../components/Navbar'
 
 const Dashboard = () => {
   const [values, setvalues] = useState({ company: '', position: '' })
@@ -29,8 +29,7 @@ const Dashboard = () => {
   // Return
   return (
     <>
-      {/* Navbar -------------------------------------------- to DO  */}
-
+      <Navbar />
       <Wrapper className='page'>
         {/* Alert -------------------------------------------- to DO  */}
 
