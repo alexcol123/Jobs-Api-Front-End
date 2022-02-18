@@ -63,7 +63,19 @@ const Edit = () => {
         </header>
 
         <form className='form' onSubmit={handleSubmit}>
-          <p>{editComplete && 'Success ! Edit complete'}</p>
+          {editComplete && (
+            <p
+              style={{
+                background: 'green',
+                color: 'white',
+                padding: '5px',
+                fontWeight: 'bold',
+              }}
+            >
+              Success ! Edit complete
+            </p>
+          )}
+
           <h4>Update job</h4>
 
           <div className='form-container'>

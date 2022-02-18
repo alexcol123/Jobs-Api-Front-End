@@ -1,5 +1,12 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { Register, Dashboard, Home, Edit,  PrivateRoute } from './pages/index'
+import {
+  Register,
+  Dashboard,
+  Home,
+  Edit,
+  PrivateRoute,
+  Error,
+} from './pages/index'
 import Navbar from './components/Navbar'
 
 function App() {
@@ -17,6 +24,10 @@ function App() {
         </Route>
         <Route path='/edit/:id'>
           <Edit />
+        </Route>
+
+        <Route path='*'>
+          <Error />
         </Route>
       </Switch>
     </Router>
